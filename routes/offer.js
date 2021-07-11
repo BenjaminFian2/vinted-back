@@ -87,10 +87,8 @@ router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
       req.fields;
     const offer = await Offer.findById(req.params.id);
     if (req.files.picture) {
-      if (offer.product_image.public_id !== null) {
-        console.log("bc");
+      if (offer.product_image !== null) {
         await cloudinary.uploader.destroy(offer.product_image.public_id);
-        console.log("ac");
       }
       offer.product_image = await cloudinary.uploader.upload(
         req.files.picture.path,
@@ -119,7 +117,7 @@ router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
 router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
   try {
     const offer = await Offer.findByIdAndDelete(req.params.id);
-    if (offer.product_image.public_id !== null) {
+    if (offer.product_image !== null) {
       await cloudinary.uploader.destroy(offer.product_image.public_id);
       await cloudinary.api.delete_folder(`/vinted/offers/${offer._id}`);
     }
