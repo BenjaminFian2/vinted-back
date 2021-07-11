@@ -87,7 +87,7 @@ router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
       req.fields;
     const offer = await Offer.findById(req.params.id);
     if (req.files.picture) {
-      if (offer.product_image) {
+      if (offer.product_image.public_id) {
         await cloudinary.uploader.destroy(offer.product_image.public_id);
       }
       offer.product_image = await cloudinary.uploader.upload(
@@ -117,11 +117,11 @@ router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
 router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
   try {
     const offer = await Offer.findByIdAndDelete(req.params.id);
-    if (offer.product_image) {
+    if (offer.product_image.public_id) {
       await cloudinary.uploader.destroy(offer.product_image.public_id);
       await cloudinary.api.delete_folder(`/vinted/offers/${offer._id}`);
     }
-    res.status(200).json("The offer has been deleted");
+    res.status(200).json({ message: "The offer has been deleted" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
