@@ -29,6 +29,10 @@ app.use(userRoutes);
 const offerRoutes = require("./routes/offer");
 app.use(offerRoutes);
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to the vinted server." });
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Page not found !" });
 });
