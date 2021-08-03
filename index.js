@@ -4,6 +4,7 @@ const formidable = require("express-formidable");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
+const stripe = require("stripe")(`${process.env.STRIPE_API_SECRET}`);
 
 const app = express();
 app.use(formidable());
@@ -31,6 +32,25 @@ app.use(offerRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to the vinted server." });
+});
+
+app.post("/payment", async (req, res) => {
+  try {
+    const response = await stripe.charges.create({
+      amount: req.fields.price * 100,
+      currency: "eur",
+      description: req.fields.description,
+      source: req.fields.stripeToken,
+    });
+    console.log(response.status);
+    if (response.status === "succeeded") {
+      res.status(200).json({ response });
+    } else {
+      res.status(400).json({ message: "An error occured" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 app.all("*", (req, res) => {
