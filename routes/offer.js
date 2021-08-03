@@ -54,7 +54,6 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
     const { title, description, price, condition, city, brand, size, color } =
       req.fields;
 
-    console.log(title, description, price, condition, city, brand, size, color);
     const newOffer = new Offer({
       product_name: title,
       product_description: description,
@@ -77,7 +76,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       );
     }
     // await newOffer.save();
-    res.status(200).json(newOffer);
+    res.status(200).json(brand); //newOffer
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
