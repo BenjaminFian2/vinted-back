@@ -53,6 +53,8 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
   try {
     const { title, description, price, condition, city, brand, size, color } =
       req.fields;
+
+    console.log(title, description, price, condition, city, brand, size, color);
     const newOffer = new Offer({
       product_name: title,
       product_description: description,
