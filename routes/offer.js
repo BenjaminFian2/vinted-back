@@ -59,11 +59,11 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       product_description: description,
       product_price: price,
       product_details: [
-        { MARQUE: "marque" }, //brand
-        { TAILLE: "taille" }, //size
-        { ÉTAT: "état" }, //condition
-        { COULEUR: "color" }, //color
-        { EMPLACEMENT: "city" }, //city
+        { MARQUE: brand },
+        { TAILLE: size },
+        { ÉTAT: condition },
+        { COULEUR: color },
+        { EMPLACEMENT: city },
       ],
       owner: req.user,
     });
