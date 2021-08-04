@@ -75,7 +75,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
         }
       );
     }
-    // await newOffer.save();
+    await newOffer.save();
     res.status(200).json(newOffer);
   } catch (error) {
     res.status(400).json({ message: error.message });
